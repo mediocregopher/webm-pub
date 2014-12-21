@@ -1,0 +1,40 @@
+package webm
+
+import (
+	. "testing"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+)
+
+func TestNewSimpleBlock(t *T) {
+	b := []byte{
+		0x82, 0x00, 0x00, 0x80, 0x76, 0xf7, 0x94, 0xdd, 0x45, 0x17,
+		0x91, 0x7b, 0x1b, 0x0b, 0x87, 0x39, 0xaa, 0xae, 0x22, 0x72,
+	}
+
+	expected := SimpleBlock{
+		TrackNumber: 2,
+		Keyframe: true,
+	}
+
+	s, err := parseAsSimpleBlock(b)
+	require.Nil(t, err)
+	assert.Equal(t, expected, *s)
+}
+
+func TestNewBlock(t *T) {
+	b := []byte{
+		0x81, 0x00, 0x03, 0x80, 0xf0, 0x32, 0x02, 0x9d, 0x01, 0x2a, 0x80, 0x07,
+		0x38, 0x04, 0x00, 0x47, 0x08, 0x85, 0x85, 0x88,
+	}
+
+	expected := Block{
+		TrackNumber: 1,
+		Timecode:    3,
+		Keyframe:    true,
+	}
+
+	bl, err := parseAsBlock(b)
+	require.Nil(t, err)
+	assert.Equal(t, expected, *bl)
+}

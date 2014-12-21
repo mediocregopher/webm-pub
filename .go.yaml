@@ -1,0 +1,4 @@
+---
+path: webm-pub
+deps:
+    - loc: github.com/mediocregopher/ebmlstream
